@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+		xmlns="http://www.example.org/other" 
+		targetNamespace="http://www.example.org/book"
+		xmlns:bo="http://www.example.org/book"
+		elementFormDefault="qualified">
+	<!-- 
+		将xmlns定义为其他值。
+		增加新的命名空间xmlns:bo="http://www.example.org/book"，其值是targetNamespace的URI。
+		这样，要是使用在targetNamespace下定义的元素，需要使用前缀bo。
+	-->
+	<xs:element name="books" type="bo:booksType"/><!-- 使用了bo前缀 -->
+	<xs:complexType name="booksType">
+		<xs:sequence>
+			<xs:element name="book" type="bo:bookType" maxOccurs="unbounded"/><!-- 使用了bo前缀 -->
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="bookType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="author" type="xs:string"/>
+			<xs:element name="price" type="bo:priceType"/><!-- 使用了bo前缀 -->
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="priceType">
+		<xs:restriction base="xs:decimal">
+			<xs:minExclusive value="0"/>
+			<xs:maxInclusive value="500"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+		targetNamespace="http://www.example.org/book"
+		xmlns="http://www.example.org/book" 
+		elementFormDefault="qualified">
+	
+	<xs:element name="books" type="booksType"/>
+	<xs:complexType name="booksType">
+		<xs:sequence>
+			<xs:element name="book" type="bookType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="bookType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="author" type="xs:string"/>
+			<xs:element name="price" type="priceType"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="priceType">
+		<xs:restriction base="xs:decimal">
+			<xs:minExclusive value="0"/>
+			<xs:maxInclusive value="500"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>
+
+
+
+
+
+
+
+
+<!-- 
+		XML命名空间：
+		命名空间：在w3c的官方说法中，命名空间提供了避免元素命名冲突的作用，即相同的元素名称表示不同含义的情况。
+		这里就不再举例详细说明了，在网上很容易找到。如果要避免重名的冲突，那很明显的，在xml文档中就可以出现多个不同的命名空间。
+		命名空间的语法：
+			xmlns:namespace-prefix="namespaceURI"
+			当命名空间被定义在元素的开始标签中时，所有带有相同前缀的子元素都会与同一个命名空间相关联，前缀可以看做是命名空间的一个别名；
+			xmlns：默认命名空间。如果不加前缀(namespace-prefix)，即为默认命名空间，指定使用该命名空间的元素及子元素只要不加其他前缀，
+			就都是默认命名空间的元素。
+		
+		XML Schema是定义 XML文档的合法构建模块，即定义xml文档中可以出现哪些元素、属性、
+		元素之间的关系、顺序、元素的数量、元素或属性的类型和值的范围等等，是对xml文档的一种约束方式。
+		不过xsd(XML Schema Definition，即XML Schema定义)文档本身也是使用XML语言来写的。
+		
+		targetNamespace：声明了该XML Schema文档中定义的元素是属于targetNamespace属性指定的命名空间(URL)下的。
+		
+		很多情况下发现，在xsd文档中，xmlns和targetNamespace指定的命名空间值是一样的，但其实他们之间的关系并不是固定的。
+		为什么这样说呢？
+		因为targetNamespace声明了在该xsd文档下定义的元素属于该命名空间，而xmlns的作用仅仅是指定默认命名空间。
+		
+		但是，如果在eclipse或idea等IDE工具里的一个xmlns和targetNamespace的URI相同的xsd文档，将xmlns或
+		targetNamespace修改的不一致，会发现IDE在该xsd文档引用自定义的元素时会报错。那么它们之间有什么关联？
+
+		其实是因为当默认命名空间xmlns和targetNamespace指定的命名空间一致时，在默认命名空间下使用的元素(如：type="booksType")
+		是属于targetNamespace命名空间的。所以在这种情况下，当只是修改xmlns或者targetNamespace，使两者不一致时，IDE工具会
+		发现在xmlns引用的命名空间下找不到该元素定义的错误。
+		当然，也可以将默认命名空间xmlns和targetNamespace给定不一样的值，用另外加了前缀的命名空间引用targetNamespace的
+		命名空间下的元素，这样在使用targetNamespace下定义的元素时需要加上该前缀。
+	 -->
